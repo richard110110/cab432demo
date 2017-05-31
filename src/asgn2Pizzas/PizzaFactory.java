@@ -30,22 +30,22 @@ public class PizzaFactory {
 	 * */
 	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{
 		// TO DO
-		switch (pizzaCode.toLowerCase()) {
-		case "PZM":
+		if(pizzaCode.equals("PZM")){
 			MargheritaPizza pizzaM = new MargheritaPizza(quantity, orderTime, deliveryTime);
 			return pizzaM;
-		
-		case "PZV":
+		}
+		else if(pizzaCode.equals("PZV")){
 			VegetarianPizza pizzaV = new VegetarianPizza(quantity, orderTime, deliveryTime);
 			return pizzaV;
-		
-		case "PZL":
+		}
+		else if(pizzaCode.equals("PZL")){
 			MeatLoversPizza pizzaL = new MeatLoversPizza(quantity, orderTime, deliveryTime);
 			return pizzaL;
-
-		default:
-			throw new PizzaException(pizzaCode + "Invalid pizzaCode supplied");
 		}
+		else{
+			throw new PizzaException("Invalid pizzaCode supplied");
+		}
+		
 	}
 
 }
