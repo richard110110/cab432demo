@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.Scanner;
 
 /**
  *
@@ -39,29 +40,22 @@ public class LogHandler {
 	 */
 	public static ArrayList<Customer> populateCustomerDataset(String filename) throws CustomerException, LogHandlerException{
 		// TO DO
-		String logFile = ".//logs/" + filename;
-		String line = "";
-		//BufferedReader re;
 		ArrayList<Customer> customers = new ArrayList<Customer>();
+		BufferedReader re;
+		String line;
 		
-		try(BufferedReader re = new BufferedReader(new FileReader(filename))) {
-			 
-			while((line = re.readLine()) != null) {	
-				try{
-			    customers.add(createCustomer(line));
-				} catch (CustomerException | LogHandlerException e) {
-					// TODO: handle exception
-					throw e;
-				}
+		try {
+			re = new BufferedReader(new FileReader(filename));
+			while((line = re.readLine()) != null) {
+				customers.add(createCustomer(line));
 			}
 			
-			return customers;
+			re.close();
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			throw new LogHandlerException("There is a problem with the log file:" + ex);
 		}
-		
-		
+		return customers;
 	}		
 
 	/**
@@ -74,30 +68,22 @@ public class LogHandler {
 	 */
 	public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException{
 		// TO DO
-		String logFile = ".//logs/" + filename;
-		String line = "";
-		//BufferedReader re;
 		ArrayList<Pizza> pizzas = new ArrayList<Pizza>();
 		
-		try(BufferedReader re = new BufferedReader(new FileReader(filename))) {
-			 
-			while((line = re.readLine()) != null) {	
-				try{
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(filename));
+			String line;
+			
+			while((line = in.readLine()) != null) {
 			    pizzas.add(createPizza(line));
-				} catch (PizzaException | LogHandlerException e) {
-					// TODO: handle exception
-					throw e;
-				}
 			}
 			
-			return pizzas;
+			in.close();
 		} catch (Exception ex) {
 			// TODO Auto-generated catch block
 			throw new LogHandlerException("There is a problem with the log file:" + ex);
 		}
-	
-
-		
+		return pizzas;
 	}		
 
 	
@@ -135,14 +121,14 @@ public class LogHandler {
 	 * @throws LogHandlerException - If there was a problem parsing the line from the log file.
 	 */
 	public static Pizza createPizza(String line) throws PizzaException, LogHandlerException{
-		// TO DO	
+		// TO DO
 		LocalTime orderTime, deliveryTime;
 		int quantity;
 		String pizzaCode;
-		
 		String[] values;
+		
 		try{
-			values = line.split(", ");
+			values = line.split(",");
 		} catch(Exception ex){
 			throw new LogHandlerException("There was a problem parsing the line from the log file:" + ex);
 		}
@@ -150,17 +136,9 @@ public class LogHandler {
 		orderTime = LocalTime.parse(values[0]);
 		deliveryTime = LocalTime.parse(values[1]);
 		quantity = Integer.parseInt(values[8]);
-		pizzaCode = values[7];
+		pizzaCode = values[7];	
 		
-		if(pizzaCode != "PZM" || pizzaCode != "PZV" || pizzaCode != "PZL"){
-			throw new PizzaException("invalid pizza code in line.");
-		}
-		
-		try{
 		return PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
-		} catch (PizzaException e) {
-			throw e;
-		}
 	}
 
 }
