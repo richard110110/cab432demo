@@ -2,6 +2,9 @@ package asgn2Tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+
+import javax.lang.model.type.NoType;
+
 import asgn2Exceptions.LogHandlerException;
 import asgn2Restaurant.LogHandler;
 
@@ -22,65 +25,52 @@ import asgn2Customers.PickUpCustomer;
 public class LogHandlerCustomerTests {
 	// TO DO
 	ArrayList<Customer> customers = new ArrayList<Customer>();
-	ArrayList<Customer> excepTest = new ArrayList<Customer>();
-	
 	@Before
-	public void populateList() throws CustomerException, LogHandlerException{
-			customers = LogHandler.populateCustomerDataset(".//logs/20170101.txt");
+	public void setUp() throws CustomerException, LogHandlerException{
+		customers = LogHandler.populateCustomerDataset(".//logs/20170101.txt");
 	}
 	
 	@Test
-	public void testLineOneName(){		
+	public void testGetName(){		
 		assertEquals(customers.get(0).getName(), "Casey Jones");
 	}
 	
 	@Test
-	public void testLineOneCustomerType(){		
+	public void testGetCustomerType(){		
 		assertEquals(customers.get(0).getCustomerType(), "Driver Delivery");
 	}
 	
 	@Test
-	public void testLineOneLocationX(){		
+	public void testLocationX(){		
 		assertEquals(customers.get(0).getLocationX(), 5);
 	}
 	
 	@Test
-	public void testLineOneLocationY(){		
+	public void testLocationY(){		
 		assertEquals(customers.get(0).getLocationX(), 5);
 	}
 	
 	@Test
-	public void testLineOneMobileNumber(){		
+	public void testGetMobileNumber(){		
 		assertEquals(customers.get(0).getMobileNumber(), "0123456789");
 	}
-	//=======================================================================================
-	
-	//Test data set population worked for line 2 and 3=======================================
+
 	@Test
-	public void testLineTwo(){		
+	public void testOtherLineCustomer(){		
 		assertEquals(customers.get(1).getName(), "April O'Neal");
 		assertEquals(customers.get(1).getCustomerType(), "Drone Delivery");
 		assertEquals(customers.get(1).getLocationX(), 3);
 		assertEquals(customers.get(1).getLocationY(), 4);
 		assertEquals(customers.get(1).getMobileNumber(), "0987654321");
 	}
-	
-	@Test
-	public void testLineThree(){		
-		assertEquals(customers.get(2).getName(), "Oroku Saki");
-		assertEquals(customers.get(2).getCustomerType(), "Pick Up");
-		assertEquals(customers.get(2).getLocationX(), 0);
-		assertEquals(customers.get(2).getLocationY(), 0);
-		assertEquals(customers.get(2).getMobileNumber(), "0111222333");
-	}
 
 	@Test(expected = LogHandlerException.class)
-	public void testPopulateCustomerDataSetException() throws CustomerException, LogHandlerException{
-		excepTest = LogHandler.populateCustomerDataset("file.kj");
+	public void testCreateCustomer() throws CustomerException, LogHandlerException{
+		LogHandler.createCustomer(null);
 	}
 	
 	@Test(expected = LogHandlerException.class)
-	public void testCreateCustomerException() throws CustomerException, LogHandlerException{
-		excepTest.add(LogHandler.createCustomer(null));
+	public void testPopulateCustomerDataset() throws CustomerException, LogHandlerException{
+		LogHandler.populateCustomerDataset("no file");
 	}
 }
