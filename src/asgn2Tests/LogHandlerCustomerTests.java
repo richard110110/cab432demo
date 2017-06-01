@@ -107,12 +107,12 @@ public class LogHandlerCustomerTests {
 	}
 	
 	@Test(expected = LogHandlerException.class)
-	public void testCreateCustomer() throws CustomerException, LogHandlerException{
-		LogHandler.createCustomer(null);
+	public void testCreateCustomerNoData() throws CustomerException, LogHandlerException{
+		LogHandler.createCustomer("no data");
 	}
 	
 	@Test(expected = LogHandlerException.class)
-	public void testPopulateCustomerDataset() throws CustomerException, LogHandlerException{
+	public void testPopulateCustomerDatasetNoFile() throws CustomerException, LogHandlerException{
 		LogHandler.populateCustomerDataset("no file");
 	}
 }
