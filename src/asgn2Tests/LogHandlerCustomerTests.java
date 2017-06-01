@@ -113,6 +113,11 @@ public class LogHandlerCustomerTests {
 	
 	@Test(expected = LogHandlerException.class)
 	public void testPopulateCustomerDatasetNoFile() throws CustomerException, LogHandlerException{
-		LogHandler.populateCustomerDataset("no file");
+		LogHandler.populateCustomerDataset(null);
+	}
+	
+	@Test(expected = LogHandlerException.class)
+	public void testPopulateCustomerDatasetWrongFile() throws CustomerException, LogHandlerException{
+		LogHandler.populateCustomerDataset("wrong file");
 	}
 }

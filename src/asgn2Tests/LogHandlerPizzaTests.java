@@ -108,6 +108,11 @@ public class LogHandlerPizzaTests {
 	
 	@Test(expected = LogHandlerException.class)
 	public void testPopulatePizzaDatasetNoFile() throws PizzaException, LogHandlerException{
-		LogHandler.populatePizzaDataset("no file");
+		LogHandler.populatePizzaDataset(null);
+	}
+	
+	@Test(expected = LogHandlerException.class)
+	public void testPopulatePizzaDatasetWrongFile() throws PizzaException, LogHandlerException{
+		LogHandler.populatePizzaDataset("wrong file");
 	}
 }

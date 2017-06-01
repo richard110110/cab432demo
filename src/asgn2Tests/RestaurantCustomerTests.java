@@ -19,10 +19,9 @@ import junit.*;
 public class RestaurantCustomerTests {
 	// TO DO
 	PizzaRestaurant restaurant = new PizzaRestaurant();
-	double dist = 10 + 0 + Math.sqrt((Math.pow(0 - 3, 2) + (Math.pow((0-4), 2))));
 	
 	@Before
-	public void populateDataset() throws CustomerException, PizzaException, LogHandlerException{
+	public void setUp() throws CustomerException, PizzaException, LogHandlerException{
 			restaurant.processLog(".//logs/20170101.txt");
 	}
 	
@@ -34,7 +33,7 @@ public class RestaurantCustomerTests {
 	}
 	
 	@Test
-	public void testGetNumberOfCustomerOrders() throws CustomerException{
+	public void testGetNumberOfCustomerOrders(){
 		int num = 0;
 		num = restaurant.getNumCustomerOrders();
 		assertEquals(num, 3);
@@ -42,11 +41,21 @@ public class RestaurantCustomerTests {
 	
 	@Test
 	public void testGetTotalDeliveryDistance(){
-		assert(dist == restaurant.getTotalDeliveryDistance());
+		assert(restaurant.getTotalDeliveryDistance() == 15);
 	}
 	
 	@Test(expected = CustomerException.class)
 	public void testGetCustomerByIndexException() throws CustomerException{
 		restaurant.getCustomerByIndex(4);
+	}
+	
+	@Test(expected = LogHandlerException.class)
+	public void testProcessLogNoFile() throws CustomerException, PizzaException, LogHandlerException{
+		assert(restaurant.processLog(null));
+	}
+	
+	@Test(expected = LogHandlerException.class)
+	public void testProcessLogWrongFile() throws CustomerException, PizzaException, LogHandlerException{
+		assert(restaurant.processLog("wrong file"));
 	}
 }
