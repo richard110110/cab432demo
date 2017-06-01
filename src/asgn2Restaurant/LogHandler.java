@@ -106,9 +106,10 @@ public class LogHandler {
 		}
 		try{
 		return CustomerFactory.getCustomer(values[4], values[2], values[3], Integer.parseInt(values[5]), Integer.parseInt(values[6]));
-		} catch (CustomerException e) {
-			// TODO: handle exception
-			throw e;
+		} catch (CustomerException ex) {
+			throw new LogHandlerException("There was a problem customer code" + ex);
+		} catch (Exception ex){
+			throw new LogHandlerException("There was a problem line" + ex);
 		}
 	}
 	
