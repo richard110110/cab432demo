@@ -132,14 +132,18 @@ public class LogHandler {
 			values = line.split(",");
 		} catch(Exception ex){
 			throw new LogHandlerException("There was a problem parsing the line from the log file:" + ex);
+		}	
+		try{
+			orderTime = LocalTime.parse(values[0]);
+			deliveryTime = LocalTime.parse(values[1]);
+			quantity = Integer.parseInt(values[8]);
+			pizzaCode = values[7];
+			return PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
+		} catch (PizzaException ex) {
+			throw new LogHandlerException("There was a problem pizza code" + ex);
+		} catch (Exception ex){
+			throw new LogHandlerException("There was a problem line" + ex);
 		}
-		
-		orderTime = LocalTime.parse(values[0]);
-		deliveryTime = LocalTime.parse(values[1]);
-		quantity = Integer.parseInt(values[8]);
-		pizzaCode = values[7];	
-		
-		return PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
 	}
 
 }
